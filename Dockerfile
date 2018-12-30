@@ -46,6 +46,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && /usr/local/openresty/luajit/bin/luarocks install magick \
     && /usr/local/openresty/luajit/bin/luarocks install lua-resty-upstream \
     && /usr/local/openresty/bin/opm get anjia0532/lua-resty-maxminddb \
+    && /usr/local/openresty/bin/opm install kwanhur/lua-resty-purge \
     && cd /usr/local/openresty/luajit/share/lua/5.1/magick/wand/ \
     && curl -O https://raw.githubusercontent.com/TrurlMcByte/magick/MagickCompositeImageGravity/magick/wand/image.lua \
     && curl -O https://raw.githubusercontent.com/TrurlMcByte/magick/MagickCompositeImageGravity/magick/wand/lib.lua \
