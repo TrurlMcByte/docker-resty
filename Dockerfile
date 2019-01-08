@@ -54,9 +54,13 @@ RUN apk add --no-cache --virtual .build-deps \
     && ln -s /usr/lib/libmaxminddb.so.0 /usr/lib/libmaxminddb.so \
     && ln -s /usr/lib/libmagic.so.1 /usr/lib/libmagic.so \
     && rm -rf /usr/local/openresty/nginx/conf/* \
-    && mkdir -p /var/cache/nginx
+    && mkdir -p /var/cache/nginx \
+    && mkdir -p /var/log/nginx \
+    && ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY resty.conf /usr/local/openresty/nginx/conf/nginx.conf
+ADD "https://raw.githubusercontent.com/nginx/nginx/master/conf/mime.types" "/usr/local/openresty/nginx/conf/mime.types"
 
 CMD ["/usr/local/openresty/bin/openresty", "-c", "/etc/nginx/nginx.conf", "-g", "daemon off;"]
