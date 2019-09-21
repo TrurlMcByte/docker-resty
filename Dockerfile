@@ -42,8 +42,11 @@ RUN apk add --no-cache --virtual .build-deps \
         make \
         autoconf \
         automake \
-    && /usr/local/openresty/luajit/bin/luarocks install lua-resty-auto-ssl \
+    && /usr/local/openresty/luajit/bin/luarocks install luasec \
+    && /usr/local/openresty/luajit/bin/luarocks install luasocket \
     && /usr/local/openresty/luajit/bin/luarocks install magick \
+    && /usr/local/openresty/luajit/bin/luarocks install firebase \
+    && /usr/local/openresty/luajit/bin/luarocks install lua-resty-auto-ssl \
     && /usr/local/openresty/luajit/bin/luarocks install lua-resty-upstream \
     && /usr/local/openresty/bin/opm get anjia0532/lua-resty-maxminddb \
     && /usr/local/openresty/bin/opm install kwanhur/lua-resty-purge \
@@ -62,5 +65,7 @@ RUN apk add --no-cache --virtual .build-deps \
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY resty.conf /usr/local/openresty/nginx/conf/nginx.conf
 ADD "https://raw.githubusercontent.com/nginx/nginx/master/conf/mime.types" "/usr/local/openresty/nginx/conf/mime.types"
+COPY redis.lua /usr/local/openresty/luajit/share/lua/5.1/resty/auto-ssl/storage_adapters/
+ADD "https://raw.githubusercontent.com/openresty/lua-resty-redis/master/lib/resty/redis.lua" /usr/local/openresty/lualib/resty/
 
 CMD ["/usr/local/openresty/bin/openresty", "-c", "/etc/nginx/nginx.conf", "-g", "daemon off;"]
